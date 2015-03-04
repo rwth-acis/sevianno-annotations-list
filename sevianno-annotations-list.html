@@ -1,0 +1,90 @@
+<link rel="import" href="bower_components/core-list/core-list.html">
+<link rel="import" href="bower_components/core-icons/core-icons.html">
+<link rel="import" href="bower_components/polymer/polymer.html">
+
+<polymer-element name="sevianno-annotations-list" >
+   <template>
+    <style>
+	.annotationslist
+	{
+		height:500px;
+		width:500px;
+	}
+    .item {
+      box-sizing: border-box;
+      height: 50px;
+	  width: 500px;
+      border-bottom: 1px solid #ddd;
+      padding: 4px;
+      cursor: default;
+      background-color: white;
+      overflow: hidden;
+    }
+   .container {
+      min-width: 2em;
+      padding: 1em;
+	  float:left;
+    }
+
+    .container > div {
+      color: black;
+    }
+    
+    
+  </style>
+
+      <core-list data = "{{annotations}}" class = "annotationslist"  id = "list" flex multi>
+        <template>
+          <div>
+            <div class="item" >
+			<span class="container" vertical center layout>
+            <core-icon icon="create"></core-icon>
+            <div>New</div>
+			</span>
+			<span class="container" vertical center layout>
+            <core-icon icon="forward"></core-icon>
+            <div>View</div>
+			</span>
+			<span class="container" vertical center layout>
+            <core-icon icon="delete"></core-icon>
+            <div>Delete</div>
+          </span>
+			Annotation name {{model.title}} Annotation id {{model.id}} Annotation time {{model.time}}
+		</div>
+          </div>
+        </template>
+      </core-list>
+  </template>
+  <script>
+    Polymer({
+	
+        annotations: [],
+		count: 6,
+		generateAnnotations: function(){
+		var data = [];
+		for (var i = 0; i < this.count; i++)
+		{
+			data.push({
+			id: i,
+			title: "Annotation " + i,
+			time: i			
+        });
+		}
+		return data;
+		},
+		addAnnotation: function(titleAnnotation, timeAnnotation){
+		this.annotations.push({
+			id: this.annotations.length,
+			title: titleAnnotation,
+			time: timeAnnotation});
+		},
+		ready: function()
+		{	
+			this.annotations = this.generateAnnotations();
+			this.addAnnotation("Title",89);
+			
+		}
+		
+    });
+  </script>
+</polymer-element>

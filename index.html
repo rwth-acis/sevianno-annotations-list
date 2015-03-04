@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sevianno Annotation List</title>
+
+    <!-- Importing Web Component's Polyfill -->
+    <script src="bower_components/webcomponentsjs/webcomponents.min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/fabric.js/1.4.13/fabric.min.js"></script>
+	
+
+    <!-- Importing Custom Elements -->
+	<link rel="import" href="sevianno-annotations-list.html">
+	<link rel="import" href="bower_components/polymer/polymer.html">
+	  <style>
+    html, body {
+      margin: 0;
+      -webkit-tap-highlight-color: transparent;
+      overflow: hidden;
+    }
+    
+    sevianno-annotations-list {
+      display: block;
+      	height:500px;
+		width:500px;
+      margin: 0;
+    }
+    .stuff {
+      min-height: 60px;
+      background: red !important;
+      border-bottom: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+
+    <!-- Using Custom Elements -->
+	<sevianno-annotations-list ></sevianno-annotations-list>
+</body>
+</html>

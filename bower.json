@@ -1,0 +1,22 @@
+{
+  "name": "sevianno-annotations-list",
+  "version": "0.0.1",
+  "homepage": "https://github.com/rwth-acis/sevianno-annotations-list",
+  "authors": [
+    "bbakiu <bakiu.bujar@hotmail.com>"
+  ],
+  "description": "A Web component for video annotation list",
+  "keywords": [
+    "video",
+    "list",
+    "annotation"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
