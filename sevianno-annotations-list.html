@@ -1,5 +1,6 @@
 <link rel="import" href="bower_components/core-list/core-list.html">
 <link rel="import" href="bower_components/core-icons/core-icons.html">
+<link rel="import" href="bower_components/core-icon-button/core-icon-button.html">
 <link rel="import" href="bower_components/polymer/polymer.html">
 
 <polymer-element name="sevianno-annotations-list" >
@@ -36,13 +37,15 @@
       <core-list data = "{{annotations}}" class = "annotationslist"  id = "list" flex multi>
         <template>
           <div>
+		  
+		   <button id="buttonPlay" on-click="{{showAnnotation}}">Show</button>
             <div class="item" >
 			<span class="container" vertical center layout>
             <core-icon icon="create"></core-icon>
             <div>New</div>
 			</span>
 			<span class="container" vertical center layout>
-            <core-icon icon="forward"></core-icon>
+            <core-icon-button icon="forward"></core-icon-button >
             <div>View</div>
 			</span>
 			<span class="container" vertical center layout>
@@ -83,6 +86,12 @@
 			this.annotations = this.generateAnnotations();
 			this.addAnnotation("Title",89);
 			
+		},
+		showAnnotation:function(e)
+		{
+		
+			console.log("showAnnotation called");
+			this.fire('show-annotation-called',{ timeAnnotation: 4 });
 		}
 		
     });
