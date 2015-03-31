@@ -33,12 +33,14 @@
     
     
   </style>
-
-      <core-list data = "{{annotations}}" class = "annotationslist"  id = "list" flex multi>
-        <template>
-          <div>
+	<template repeat="{{multi ? selection: [selection]}}">
+		<div class="selection-display">Id {{id}}: title: {{title}} time: {{time}}</div>
+	</template>
+      < <core-list data = "{{annotations}}" selectionEnabled="{{selectionEnabled}}" selection="{{selection}}" class = "annotationslist"  id = "list" flex multi>
+	    <template>
+          <div  class="item {{ {selected: selected} | tokenList }}">
 		  
-		   <button id="buttonPlay" on-click="{{showAnnotation}}">Show</button>
+		   <button id="buttonPlay" on-tap="{{showAnnotation}}">Show</button>
             <div class="item" >
 			<span class="container" vertical center layout>
             <core-icon icon="create"></core-icon>
