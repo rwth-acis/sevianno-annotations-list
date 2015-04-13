@@ -11,7 +11,7 @@
     "list",
     "annotation"
   ],
-  "main": "sevianno-annotations-list",
+  "main": "sevianno-annotations-list.html",
   "license": "Apache 2.0",
   "ignore": [
     "**/.*",
