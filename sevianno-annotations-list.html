@@ -44,6 +44,7 @@ TODO: define the set of attributes that are needed.
    .container {
       min-width: 2em;
       padding: 1em;
+	  clear:left;
 	  float:left;
     }
 
@@ -129,6 +130,7 @@ TODO: define the set of attributes that are needed.
 			id: i,
 			title: "Annotation " + i,
 			time: i*2,
+			value: 0,
 			annotation: canvasJson
         });
 		}
@@ -143,7 +145,10 @@ TODO: define the set of attributes that are needed.
 			id: this.annotations.length,
 			title: detail.title,
 			time: detail.time,
+			value: detail.value,
 			annotation: detail.annotationJson }); 
+		this.fire('core-signal', { name: 'show-marker', data: detail.value });
+	
 		},
 		
 		/**
