@@ -96,6 +96,7 @@ TODO: define the set of attributes that are needed.
         </template>
       </core-list>
 	  <core-signals on-core-signal-add-annotation="{{addAnnotation}}"></core-signals>
+	  <core-signals on-core-signal-timeupdate="{{timeupdate}}"></core-signals>
   </template>
   <script>
     Polymer({
@@ -170,7 +171,23 @@ TODO: define the set of attributes that are needed.
 			console.log("showAnnotation called");
 			this.fire('core-activate');
 		},
-		
+		timeupdate: function(e, detail, sender) {
+			for(var i = 0; i < this.annotations.length; i++)
+			{
+				if(Math.round(this.annotations[i].time)== Math.round(detail.time))
+				{
+					var annotationData = {time: this.annotations[i].time, jsonvideo: this.annotations[i].annotation};
+					this.fire('core-signal', { name: 'show-annotation', data: annotationData });
+					this.fire('core-signal', { name: "pause" });
+					var playSignal = this.playVideo.bind(this);
+					setTimeout(function(){ playSignal();}, 5000);
+					
+					
+				}
+			}
+
+			console.log(detail);
+		},
 		selectedItem: function (e) {
 		console.log("annotation list- add selected item")
 		console.log(e.detail.data.time);
@@ -179,7 +196,10 @@ TODO: define the set of attributes that are needed.
 		var annotationData = {time: e.detail.data.time, jsonvideo: e.detail.data.annotation};
 		this.fire('core-signal', { name: 'show-annotation', data: annotationData });
 		//this.fire('show-annotation-called',{ timeAnnotation: e.detail.data.time, annotationJson: e.detail.data.annotation});
-		}
+		},
+	  playVideo: function () {
+		this.fire('core-signal', { name: "play" });
+	  }
 		
     });
   </script>
