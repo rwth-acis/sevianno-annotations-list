@@ -116,7 +116,7 @@ TODO: define the set of attributes that are needed.
 		* @type integer
 		* @default 6
 		*/
-		count: 1,
+		count: 0,
 		
 		/**
 		*This function is used to generate the list.
@@ -141,6 +141,7 @@ TODO: define the set of attributes that are needed.
 		console.log("annotation list- add annotation detail")
 		console.log(detail.title);
 		console.log(detail.time);
+		console.log(detail.value);
 		//console.log(inputJson[annotation]);
 			this.annotations.push({
 			id: this.annotations.length,
@@ -172,17 +173,16 @@ TODO: define the set of attributes that are needed.
 			this.fire('core-activate');
 		},
 		timeupdate: function(e, detail, sender) {
+			var playSignal = this.playVideo.bind(this);
 			for(var i = 0; i < this.annotations.length; i++)
 			{
 				if(Math.round(this.annotations[i].time)== Math.round(detail.time))
 				{
 					var annotationData = {time: this.annotations[i].time, jsonvideo: this.annotations[i].annotation};
-					this.fire('core-signal', { name: 'show-annotation', data: annotationData });
 					this.fire('core-signal', { name: "pause" });
-					var playSignal = this.playVideo.bind(this);
-					setTimeout(function(){ playSignal();}, 5000);
+					this.fire('core-signal', { name: 'show-annotation', data: annotationData });					
 					
-					
+					//setTimeout(function(){ playSignal();}, 2000);
 				}
 			}
 
