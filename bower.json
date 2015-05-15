@@ -22,6 +22,7 @@
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^0.5",
-    "core-list": "Polymer/core-list#^0.5"
+    "core-list": "Polymer/core-list#^0.5",
+    "sortable-table": "~0.11.1"
   }
 }
