@@ -65,7 +65,7 @@ TODO: define the set of attributes that are needed.
 		* @default 6
 		*/
 		count: 0,
-		columns: [{name: 'id', title: 'ID' },{name:'title', title:'Title'},{name:'time', title:'Time' } ],
+		columns: [{name: 'id', title: 'ID' },{name:'title', title:'Title'},{name:'SMPTE', title:'Time' } ],
 				
 		/**
 		*This function is used to generate the list.
@@ -80,6 +80,7 @@ TODO: define the set of attributes that are needed.
 			id: i,
 			title: "Annotation " + i,
 			time: i*2,
+			SMPTE: 100,
 			value: 0,
 			annotation: canvasJson
 				});
@@ -91,6 +92,7 @@ TODO: define the set of attributes that are needed.
 			id: this.annotations.length,
 			title: detail.title,
 			time: detail.time,
+			SMPTE: detail.SMPTE,
 			value: detail.value,
 			annotation: detail.annotationJson }); 
 		this.fire('core-signal', { name: 'show-marker', data: detail.value });
