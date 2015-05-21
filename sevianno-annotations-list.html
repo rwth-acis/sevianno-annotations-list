@@ -40,7 +40,20 @@ TODO: define the set of attributes that are needed.
 		columns="{{columns}}" 
 		selected="{{selected}}"
 		rowSelection 
-		disableColumnMove>		
+		disableColumnMove>
+			<template id="template">
+				<td style="border-left: 1px solid #ccc; border-top: 1px solid #ccc; padding: 10px; text-align: left; ">
+					{{value}}
+				</td>
+			</template>
+			<template id="headTemplate">
+				<th style="background-color: #dce9f9;	background-image: -webkit-gradient(linear, left top, left bottom, from(#ebf3fc), to(#dce9f9));background-image: -webkit-linear-gradient(top, #ebf3fc, #dce9f9);
+					background-image:    -moz-linear-gradient(top, #ebf3fc, #dce9f9);	background-image:     -ms-linear-gradient(top, #ebf3fc, #dce9f9);	background-image:      -o-linear-gradient(top, #ebf3fc, #dce9f9);
+					background-image:         linear-gradient(top, #ebf3fc, #dce9f9);-webkit-box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;	-moz-box-shadow:0 1px 0 rgba(255,255,255,.8) inset;  
+					box-shadow: 0 1px 0 rgba(255,255,255,.8) inset; border-top: none;	text-shadow: 0 1px 0 rgba(255,255,255,.5); ">
+					{{column.name}}
+				</th>
+			</template>
 		</sortable-table>
 	<core-signals on-core-signal-add-annotation="{{addAnnotation}}"></core-signals>
 	<core-signals on-core-signal-timeupdate="{{timeupdate}}"></core-signals>
@@ -63,8 +76,8 @@ TODO: define the set of attributes that are needed.
 	* @type integer
 	* @default 6
 	*/
-	count: 5,
-	columns: [{name: 'id', title: 'ID' },{name:'title', title:'Title'},{name:'time', title:'Time' } ],
+	count: 0,
+	columns: [{name: 'id', title: 'ID', headerTemplate: 'headTemplate', cellTemplate: 'template' },{name:'title', title:'Title', headerTemplate: 'headTemplate', cellTemplate: 'template'},{name:'time', title:'Time', headerTemplate: 'headTemplate', cellTemplate: 'template' } ],
 
 	/**
 	*This function is used to generate the list.
@@ -116,9 +129,6 @@ TODO: define the set of attributes that are needed.
 		var playSignal = this.playVideo.bind(this);
 		for(var i = 0; i < this.annotations.length; i++)
 		{
-			console.log(((Math.round(this.annotations[i].time * 5)) / 5));
-			console.log(((Math.round(detail.time * 5)) / 5));
-
 			if(((Math.round(this.annotations[i].time * 5)) / 5) == ((Math.round(detail.time* 5)) / 5))
 			{	
 				var annotationData = {time: this.annotations[i].time, jsonvideo: this.annotations[i].annotation};
