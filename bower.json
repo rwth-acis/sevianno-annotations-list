@@ -11,7 +11,8 @@
     "list",
     "annotation"
   ],
-  "license": "MIT",
+  "main": "sevianno-annotations-list.html",
+  "license": "Apache 2.0",
   "ignore": [
     "**/.*",
     "node_modules",
@@ -21,6 +22,7 @@
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^0.5",
-    "core-list": "Polymer/core-list#^0.5"
+    "core-list": "Polymer/core-list#^0.5",
+    "sortable-table": "~0.11.1"
   }
 }
