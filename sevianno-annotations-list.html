@@ -1,8 +1,36 @@
-<link rel="import" href="../core-list/core-list.html">
+<!--
+Copyright (c) 2014 Advanced Community Information Systems (ACIS) Group, 
+Chair of Computer Science 5 (Databases & Information Systems), RWTH Aachen University, Germany
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* Neither the name of the ACIS Group nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
 <link rel="import" href="../core-signals/core-signals.html">
 <link rel="import" href="../sortable-table/sortable-table.html">
-<link rel="import" href="../core-input/core-input.html">
-<link rel="import" href="../paper-input/paper-input.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../core-icons/av-icons.html">
 
@@ -12,13 +40,12 @@
 `sevianno-annotations-list` is an web component for showing list of annotations.
 
 ##### Example
-<sevianno-annotations-list
-on-show-annotation-called = "{{functionWhenAnnotationClicked}}"></sevianno-annotations-list>
+<sevianno-annotations-list></sevianno-annotations-list>
 
-This component uses a list core-list (https://www.polymer-project.org/0.5/docs/elements/core-list.html) to show the annotations.
-Currently this is just a generated list, but when the connection with database is it will be populated from the database.
+This component uses a table sortable-table (http://files.stevenskelton.ca/sortable-table/examples/index.html) to show the annotations.
+In the table it is shown and ID of the annotation, the title (which is editable), the time in the SMPTE format, and one button to edit the title.
 
-TODO: define the set of attributes that are needed.
+
  
 @element sevianno-annotations-list
 @status alpha
@@ -35,7 +62,8 @@ TODO: define the set of attributes that are needed.
 								}
 	</style>
 	  <template id="example" bind>
-	  <sortable-table 
+      <!-- Here is the declaration of the sortable-table element-->
+	  <sortable-table
 	  class="default" 
 	  data="{{annotations}}" 
 	  columns="{{columns}}" 
@@ -43,6 +71,7 @@ TODO: define the set of attributes that are needed.
 	  rowEditorTemplate="editor"
 	  rowSelection
 	  disableColumnMove>
+        <!-- Defining the custom columns-->
 		<template id="titleTemplate">
 			<td style="text-align:left;vertical-align:middle;width:250px;">
 					{{value}}
@@ -54,8 +83,10 @@ TODO: define the set of attributes that are needed.
 					<!--<button class="btn btn-primary" on-click="{{ rowEdit }}"  data-bind-id="{{value}}" title="Edit">&#10004; {{value}}</button>-->
 				</td>
 		</template>
-				
-		<template id="editor">
+
+
+          <!-- Template of a row when table is in editable mode -->
+          <template id="editor">
 
 					<td >
 						{{record.row.id}}
@@ -88,8 +119,18 @@ TODO: define the set of attributes that are needed.
   </template>
   <script>
     Polymer({
+        /**
+         * The `authors` attribute sets contributors author
+         *
+         * @attribute authors
+         * @type array
+         * @default ['Bujar Bakiu','István Koren']
+         */
+        authors: ['Bujar Bakiu', 'István Koren'],
+
 		/**
-		* annotations is the set of annotatios. Currently it is not defined its type, but only the generated list.
+		* annotations is the set of annotations. Each annotation should contain one id, time, SMPTE string,
+         * value in percentage of the crrrent time and the JSON of the annotation from FabricJS  .
 		* 
 		* @attribute annotations
 		* @type array
@@ -98,17 +139,27 @@ TODO: define the set of attributes that are needed.
         annotations: [],
 		
 		/**
-		* This attribute is the used for the list of items. Currently it is defined only for test purposes.
+		* This attribute is the used for the list of items. Used for testing purposes.
 		* 
 		* @attribute count
 		* @type integer
-		* @default 6
+		* @default 0
 		*/
 		count: 0,
+
+        /**
+         * columns defines the columns that will be shown on the softable-table element.
+         * For each column name belongs to the attribute from the dataset, in this case the array: annotations[]
+         *
+         * @attribute columns
+         * @type array
+         * @ default [{name: 'id', title: 'ID' },{name:'title', title:'Title', cellTemplate: 'titleTemplate'},{name:'SMPTE', title:'Time'},{name:'id', title:'Edit', cellTemplate:'editTemplate'} ]
+         */
 		columns: [{name: 'id', title: 'ID' },{name:'title', title:'Title', cellTemplate: 'titleTemplate'},{name:'SMPTE', title:'Time'},{name:'id', title:'Edit', cellTemplate:'editTemplate'} ],
 				
 		/**
 		*This function is used to generate the list.
+         * It will generate a list with some items, used to test the component.
 		*/
 		generateAnnotations: function(){
 		var data = [];		
@@ -126,6 +177,12 @@ TODO: define the set of attributes that are needed.
 		}
 		return data;
 		},
+
+        /**
+         * addAnnotation function adds another annotation to the annotation array.
+         * In the detail parameter are all the data for the annotation.
+         *
+         */
 		addAnnotation: function(e, detail, sender){
 			this.annotations.push({
 			id: this.annotations.length,
@@ -133,7 +190,8 @@ TODO: define the set of attributes that are needed.
 			time: detail.time,
 			SMPTE: detail.SMPTE,
 			value: detail.value,
-			annotation: detail.annotationJson }); 
+			annotation: detail.annotationJson });
+        // fire signal 'show-marker' to add the marker on the sevianno-video-controls component
 		this.fire('core-signal', { name: 'show-marker', data: detail.value });
 	
 		},
@@ -146,17 +204,14 @@ TODO: define the set of attributes that are needed.
 			this.annotations = this.generateAnnotations();
 			
 		},
-		
-		/**
-		* Used when the user clicks the button Play in the element.
-		* Fires event show-annotation-called.
-		*/
-		showAnnotation:function(e)
-		{
-			this.fire('core-activate');
-		},
+
+        /**
+         * timeupdate is called anytime the timeupdate event in fired from the playing video on the canvas component.
+         * Its purpose is to find if there is any annotation to be shown on the canvas and show it to the user.
+         * Meanwhile the state of the video should not change.
+         *
+         * */
 		timeupdate: function(e, detail, sender) {
-			var playSignal = this.playVideo.bind(this);
 			for(var i = 0; i < this.annotations.length; i++)
 			{
 				if(((Math.round(this.annotations[i].time * 4)) / 4) == ((Math.round(detail.time* 4)) / 4))
@@ -165,34 +220,17 @@ TODO: define the set of attributes that are needed.
 					this.fire('core-signal', { name: 'show-annotation', data: annotationData });					
 				}
 			}
-
-			console.log(detail);
-		},
-		selectedChanged: function (oldVal, newVal) {
-			console.log(newVal);
-			var annotationData = {time: newVal.time, jsonvideo: newVal.annotation};
-			this.fire('core-signal', { name: 'show-annotation', data: annotationData });
-		},
-		playVideo: function () {
-			this.fire('core-signal', { name: "play" });
-		},
-		valueTextChanged: function (oldVal, newVal) {
-			console.log('Hahhaha');
-			//console.log(detail);
-			//console.log(sender);
-			//this.fire('core-signal', {name: 'change', data: sender.dataset.immediateValue});
-		},
-		valueTextChanged: function () {
-		console.log("text");
-          /*if (e.which == 13 || e.keyCode == 13 || e.which == 32 || e.keyCode == 32) {
-            e.preventDefault();
-            this.signIn();
-          }*/
         },
-		enableEdit: function () {
-			console.log("button clicked");
+
+        /**
+         * Anytime the user selects another item of the table, that annotation is shown.
+         * */
+		selectedChanged: function (oldVal, newVal) {
+			if (newVal) {
+                var annotationData = {time: newVal.time, jsonvideo: newVal.annotation};
+                this.fire('core-signal', { name: 'show-annotation', data: annotationData });
+            }
 		}
-		
     });
   </script>
 </polymer-element>
