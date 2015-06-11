@@ -1,6 +1,6 @@
 {
   "name": "sevianno-annotations-list",
-  "version": "0.0.1",
+  "version": "0.5.0",
   "homepage": "https://github.com/rwth-acis/sevianno-annotations-list",
   "authors": [
     "bbakiu <bakiu.bujar@hotmail.com>"
@@ -12,7 +12,7 @@
     "annotation"
   ],
   "main": "sevianno-annotations-list.html",
-  "license": "Apache 2.0",
+  "license": "Apache-2",
   "ignore": [
     "**/.*",
     "node_modules",
